@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Interactive Portfolio</title>
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',sans-serif;}
+body{color:#333;scroll-behavior:smooth;}
+
+header{
+  position:fixed;width:100%;top:0;background:#111;color:#fff;
+  display:flex;justify-content:space-between;padding:15px 50px;z-index:1000;
+}
+nav a{color:#fff;margin-left:20px;text-decoration:none;position:relative;}
+nav a::after{
+  content:"";position:absolute;width:0;height:2px;background:#00aaff;left:0;bottom:-5px;transition:0.3s;
+}
+nav a:hover::after{width:100%;}
+
+.hero{
+  height:50vh;display:flex;align-items:center;justify-content:space-between;
+  padding:100px 50px;background:linear-gradient(to right,#222,#555);color:#fff;
+}
+.hero-text h2{font-size:42px;}
+.hero-text span{color:#00aaff;}
+.hero img{width:300px;border-radius:20px;transition:0.5s;}
+.hero img:hover{transform:scale(1.05) rotate(2deg);}
+
+.btn{
+  display:inline-block;margin-top:20px;padding:12px 25px;
+  background:#00aaff;color:#fff;text-decoration:none;border-radius:25px;
+  transition:0.3s;
+}
+.btn:hover{transform:scale(1.1);background:#008ecc;}
+
+section{padding:80px 50px;}
+h2{text-align:center;margin-bottom:30px;}
+
+.skills .grid{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:15px;
+}
+.skills div{
+  background:#eee;padding:20px;text-align:center;border-radius:10px;
+  transition:0.3s;cursor:pointer;
+}
+.skills div:hover{
+  background:#00aaff;color:#090404;transform:translateY(-5px);
+}
+
+.projects .card{
+  background:#fff;padding:20px;margin:10px 0;border-radius:10px;
+  box-shadow:0 4px 10px rgba(0,0,0,0.1);transition:0.3s;cursor:pointer;
+}
+.projects .card:hover{transform:scale(1.03);}
+
+.contact{text-align:center;}
+
+footer{background:#111;color:#fff;text-align:center;padding:15px;}
+
+/* Scroll animation */
+.hidden{opacity:0;transform:translateY(50px);transition:all 0.6s ease;}
+.show{opacity:1;transform:translateY(0);}
+
+@media(max-width:768px){
+  .hero{flex-direction:column;text-align:center;}
+  .hero img{margin-top:20px;}
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <h1>Akanchha Rai</h1>
+  <nav>
+    <a href="#">Home</a>
+    <a href="#about">About</a>
+    <a href="#skills">Skills</a>
+    <a href="#projects">Projects</a>
+    <a href="#contact">Contact</a>
+  </nav>
+</header>
+
+<section class="hero">
+  <div class="hero-text">
+    <h2>Hello, I'm <span id="typing"></span></h2>
+    <p>I create modern and interactive websites.</p>
+    <a href="#contact" class="btn">Hire Me</a>
+  </div>
+  <img src="Task1image.jpg" alt="profile">
+</section>
+
+<section id="about" class="hidden">
+  <h2>About Me</h2>
+  <p style="text-align:center;max-width:700px;margin:auto;">
+   I am a motivated and detail-oriented developer with hands-on experience in designing and developing web applications. My expertise includes HTML, CSS, JavaScript, and Python. I am passionate about creating efficient, user-friendly solutions and continuously enhancing my technical skills.
+  </p>
+</section>
+
+<section id="skills" class="skills hidden">
+  <h2>Skills</h2>
+  <div class="grid">
+    <div>HTML</div>
+    <div>CSS</div>
+    <div>JavaScript</div>
+    <div>Python</div>
+    <div>Flask</div>
+  </div>
+</section>
+
+<section id="projects" class="projects hidden">
+  <h2>Projects</h2>
+  <div class="card" onclick="alert('Portfolio Project Clicked!')">
+    <h3>Portfolio Website</h3>
+    <p>Click to interact!</p>
+  </div>
+  <div class="card" onclick="alert('Student System Clicked!')">
+    <h3>Student System</h3>
+    <p>Flask-based project.</p>
+  </div>
+</section>
+
+<section id="contact" class="contact hidden">
+  <h2>Contact Me</h2>
+  <p>Email: raiakanchha07@email.com</p>
+</section>
+
+<footer>
+  <p>Akanchha Rai</p>
+</footer>
+
+<script>
+// Typing Effect
+const text = ["Web Developer","Designer","Freelancer"];
+let i=0,j=0,current="",isDeleting=false;
+function type(){
+  current = text[i];
+  if(isDeleting){
+    document.getElementById("typing").textContent = current.substring(0,j--);
+  } else {
+    document.getElementById("typing").textContent = current.substring(0,j++);
+  }
+
+  if(!isDeleting && j===current.length+1){
+    isDeleting=true;setTimeout(type,1000);return;
+  }
+  if(isDeleting && j===0){
+    isDeleting=false;i=(i+1)%text.length;
+  }
+  setTimeout(type, isDeleting?50:100);
+}
+type();
+
+// Scroll Reveal
+const observer = new IntersectionObserver(entries=>{
+  entries.forEach(entry=>{
+    if(entry.isIntersecting){entry.target.classList.add("show");}
+  });
+});
+
+document.querySelectorAll('.hidden').forEach(el=>observer.observe(el));
+</script>
+
+</body>
+</html>
